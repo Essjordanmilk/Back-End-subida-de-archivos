@@ -34,13 +34,14 @@ namespace WebApplication2.Models
         {
             modelBuilder.Entity<Archivo>(entity =>
             {
+                entity.HasKey(e => e.Id);
                 entity.ToTable("archivos");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(100)
-                    .IsUnicode(false)
+                    
                     .HasColumnName("nombre");
 
                 entity.Property(e => e.Ubicacion)

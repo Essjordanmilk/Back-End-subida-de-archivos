@@ -73,8 +73,8 @@ namespace WebApplication2.Controllers
         }
         // POST: api/Archivo
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("{id}")]
-        public ActionResult PostArchivo([FromForm]List<IFormFile> files)
+        [HttpPost]
+        public ActionResult PostArchivo([FromForm] List<IFormFile> files)
         {
             List<Archivo> archivos = new List<Archivo>();
             try
@@ -84,15 +84,15 @@ namespace WebApplication2.Controllers
                     foreach (var file in files)
                     {
                         Archivo archivo = new Archivo();
-                        var filePath = "C:\\Users\\User\\source\\repos\\WebApplication2\\WebApplication2\\uploads\\"+file.FileName; 
+                        var filePath = "C:\\Users\\User\\source\\repos\\WebApplication2\\WebApplication2\\uploads\\" + file.FileName;
                         using (var stream = System.IO.File.Create(filePath))
                         {
-                            file.CopyToAsync(stream); 
+                            file.CopyToAsync(stream);
                         }
-                         
+
                         archivo.Nombre = Path.GetFileNameWithoutExtension(file.FileName);
-                        archivo.Ubicacion = filePath; 
-                        archivos.Add(archivo);  
+                        archivo.Ubicacion = filePath;
+                        archivos.Add(archivo);
                     }
                     _context.Archivos.AddRange(archivos);
                     _context.SaveChanges();
@@ -100,13 +100,14 @@ namespace WebApplication2.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message); 
+                return BadRequest(e.Message);
             }
-            return Ok(archivos); 
-            
+            return Ok(archivos);
+
         }
 
-        // DELETE: api/Archivo/5
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArchivo(int id)
         {
